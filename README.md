@@ -46,3 +46,23 @@ npm install
 
 ```
 
+### 3.Set Up Environment Variables
+Create a .env file based on .env.example:
+
+
+```bash
+PORT=5000
+DATABASE_URL=postgresql://USER:PASSWORD@localhost:5432/gameswap
+JWT_SECRET=your_jwt_secret
+CLOUDINARY_CLOUD_NAME=xxx
+CLOUDINARY_API_KEY=xxx
+CLOUDINARY_API_SECRET=xxx
+
+
+```
+### 4.Run Prisma Migrations
+
+```bash
+npm install
+
+```
