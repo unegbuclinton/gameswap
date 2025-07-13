@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  games     Game[]
+
+  requestedSwaps SwapRequest[] @relation("Requester")
+}
+
+model Game {
+  id               String          @id @default(uuid())
+  title            String
+  platform         String
+  condition        String
+  imageUrl         String?
+  ownerId          String
+  owner            User            @relation(fields: [ownerId], references: [id])
+  createdAt        DateTime        @default(now())
+
+
+  receivedRequests SwapRequest[]   @relation("RequestedGame")
+  offeredInSwaps   SwapRequest[]   @relation("OfferedGame")
+}
+
+
+model SwapRequest {
+  id            String   @id @default(uuid())
+  requesterId   String
+  requester     User     @relation("Requester", fields: [requesterId], references: [id])
+
+  gameId        String
+  game          Game     @relation("RequestedGame", fields: [gameId], references: [id])
+
+  offeredGameId String?  // Optional if user is offering another game
+  offeredGame   Game?    @relation("OfferedGame", fields: [offeredGameId], references: [id])
+
+  status        SwapStatus @default(PENDING)
+  createdAt     DateTime   @default(now())
+}
+
+enum SwapStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+}
