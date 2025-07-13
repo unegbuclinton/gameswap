@@ -63,6 +63,24 @@ CLOUDINARY_API_SECRET=xxx
 ### 4.Run Prisma Migrations
 
 ```bash
-npm install
+npx prisma migrate dev --name init
+npx prisma generate
+
+```
+### 5.Run Prisma Migrations
+
+```bash
+npx ts-node-dev src/index.ts
+
+```
+
+---
+
+### API Documentation
+
+After running the server, visit:
+
+```bash
+npx ts-node-dev src/index.ts
 
 ```
